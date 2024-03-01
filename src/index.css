@@ -254,6 +254,18 @@ h1 {
   background-color: rgba(0, 0, 0, 0.55);
 }
 
+.spinner-container,
+.error-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: 70vh;
+}
+.error-container {
+  background-color: #1d1a16;
+}
+
 @keyframes fade-slide-up {
   from {
     opacity: 0;

@@ -1,17 +1,18 @@
-/* import {url} from "../../../http/http" */
+import { url } from "../../../http/http";
+import Button from "../../../utilities/button/button";
 
-export default function Meal() {
+export default function Meal({ id,image, name, price, description,addMealToCart }) {
   return (
     <div className="meal-item">
       <div className="article">
-        {/*     <img src={url} alt="" /> */}
-        <h3>Lorem</h3>
+        <img src={url + image} alt="" />
+        <h3>{name}</h3>
         <div>
-          <p className="meal-item-price">€10,00</p>
+          <p className="meal-item-price">${price}</p>
         </div>
-        <p className="meal-item-description">desc</p>
+        <p className="meal-item-description">{description}</p>
         <div className="meal-item-actions">
-          <button className="button">Add to Cart</button>
+          <Button onClick={() => addMealToCart(name,price,id)}>Add to Cart</Button>
         </div>
       </div>
     </div>

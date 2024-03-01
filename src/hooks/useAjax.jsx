@@ -19,7 +19,7 @@ export function useAjax(
         setIsFetching(false);
       } catch (error) {
         setError({
-          message: error.message || errorMessage,
+          message: errorMessage,
         });
         setIsFetching(false);
       }
