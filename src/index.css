@@ -233,6 +233,15 @@ h1 {
   border: none;
   color: #ffc404;
 }
+.text-modal-button {
+  font: inherit;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #1f1a09;
+}
 
 .text-button:hover,
 .text-button:active {
