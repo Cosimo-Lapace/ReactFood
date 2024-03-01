@@ -1,4 +1,4 @@
-const url = "http://localhost:3000/";
+export const url = "http://localhost:3000/";
 
 export async function get(uri) {
   const res = await fetch(url + uri);

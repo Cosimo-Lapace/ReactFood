@@ -1,12 +1,13 @@
-
+import Header from "./components/header/header";
+import Meals from "./components/meals/meals";
 
 function App() {
- 
   return (
     <>
-      <h1>You got this 💪</h1>
-      <p>Stuck? Not sure how to proceed?</p>
-      <p>Don't worry - we've all been there. Let's build it together!</p>
+      <Header />
+      <main>
+        <Meals />
+      </main>
     </>
   );
 }
