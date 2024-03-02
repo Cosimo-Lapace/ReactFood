@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Input from "../../../utilities/input/input";
 import Button from "../../../utilities/button/button";
 import ErrorMessage from "../../../utilities/error/errorMessage/errorMessage";
+import { MealContext } from "../../../store/meal-context";
 export default function CheckoutForm() {
+  const { onSubmitted } = useContext(MealContext);
   const [inputObj, setInputObj] = useState({
     name: "",
     email: "",
@@ -35,7 +37,14 @@ export default function CheckoutForm() {
         };
       });
     }
-    console.log(inputObj);
+    const newObj = {
+      name: inputObj.name,
+      email: inputObj.email,
+      street: inputObj.street,
+      postalCode: inputObj.postalCode,
+      city: inputObj.city,
+    };
+    onSubmitted(newObj);
   }
 
   return (

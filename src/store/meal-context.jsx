@@ -78,7 +78,6 @@ function mealCartReducer(state, action) {
         totalPrice: 0,
         totalQuantity: 0,
       };
-    default:
     case "CHECKOUT":
       return {
         ...state,
@@ -91,6 +90,14 @@ function mealCartReducer(state, action) {
         isCheckout: false,
       };
       break;
+    case "SUBMITTED":
+      return {
+        meal: [...state.meal],
+        totalPrice: state.totalPrice,
+        totalQuantity:state.totalQuantity,
+        userObj: action.payload.userObj,
+      };
+    default:
       return state;
   }
 }
@@ -143,12 +150,20 @@ const MealProvider = ({ children }) => {
       mealCartDispatch({
         type: "CHECKOUT",
       });
-    }else{
-       mealCartDispatch({
-         type: "NOT_CHECKOUT",
-       });
+    } else {
+      mealCartDispatch({
+        type: "NOT_CHECKOUT",
+      });
     }
   }
+  function onSubmitted(userObj) {
+    console.log(userObj);
+    mealCartDispatch({
+      type: "SUBMITTED",
+      payload: { userObj },
+    });
+  }
+  console.log(mealCartState);
 
   return (
     <MealContext.Provider
@@ -161,6 +176,7 @@ const MealProvider = ({ children }) => {
         changeMealQuantity,
         cleanCart,
         checkIsCheckout,
+        onSubmitted,
       }}
     >
       {children}
