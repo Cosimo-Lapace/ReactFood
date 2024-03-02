@@ -4,9 +4,9 @@ import Button from "../../utilities/button/button";
 import Spinner from "../../utilities/spinner/spinner";
 import Meal from "./meal/meal";
 
-export default function Meals() {
+export default function Meals({ type }) {
   const { isFetching, error, meals, addMealToCart } = useContext(MealContext);
- 
+
   return (
     <>
       {isFetching ? <Spinner /> : null}

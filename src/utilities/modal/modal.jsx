@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 import { createPortal } from "react-dom";
 import Button from "../button/button";
 
-const Modal = forwardRef(function Modal(props, ref) {
+const Modal = forwardRef(function Modal({ children }, ref) {
   const dialog = useRef();
   useImperativeHandle(ref, () => {
     return {
@@ -18,9 +18,10 @@ const Modal = forwardRef(function Modal(props, ref) {
 
   return createPortal(
     <dialog ref={dialog} className="modal">
-      <form method="dialog" style={{ textAlign: "end" }}>
+      <form method="dialog" className="modal-actions">
         <Button $class={"text-modal-button"}>X</Button>
       </form>
+      {children}
     </dialog>,
     document.getElementById("modal")
   );

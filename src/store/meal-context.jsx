@@ -46,6 +46,29 @@ function mealCartReducer(state, action) {
         };
       }
       break;
+    case "DECR_MEAL":
+      console.log(state.totalPrice);
+      let totalPrice = state.totalPrice;
+      return {
+        ...state,
+        meal: state.meal.map((meal) => {
+          console.log(meal);
+          if (meal.id === action.payload.id) {
+            totalPrice = +(state.totalPrice - meal.price).toFixed(2);
+            if (meal.quantity > 1) {
+              return {
+                ...meal,
+                quantity: meal.quantity - 1,
+              };
+            } else {
+              return null;
+            }
+          }
+        }).filter((meal) => meal !== null),
+        totalPrice: totalPrice,
+        totalQuantity: state.totalQuantity - 1,
+      };
+      break;
     default:
       return state;
   }
@@ -68,12 +91,24 @@ const MealProvider = ({ children }) => {
     totalQuantity: 0,
   });
 
-  console.log(mealCartState);
   function addMealToCart(name, price, id) {
     mealCartDispatch({
       type: "ADD_MEAL",
       payload: { name, price, id },
     });
+  }
+  function changeMealQuantity(type, id, quantity) {
+    if (type === "add") {
+      mealCartDispatch({
+        type: "ADD_MEAL",
+        payload: { id },
+      });
+    } else {
+      mealCartDispatch({
+        type: "DECR_MEAL",
+        payload: { id },
+      });
+    }
   }
 
   return (
@@ -83,6 +118,8 @@ const MealProvider = ({ children }) => {
         error,
         meals,
         addMealToCart,
+        mealCartState,
+        changeMealQuantity,
       }}
     >
       {children}
