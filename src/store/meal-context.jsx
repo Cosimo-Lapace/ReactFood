@@ -51,25 +51,46 @@ function mealCartReducer(state, action) {
       let totalPrice = state.totalPrice;
       return {
         ...state,
-        meal: state.meal.map((meal) => {
-          console.log(meal);
-          if (meal.id === action.payload.id) {
-            totalPrice = +(state.totalPrice - meal.price).toFixed(2);
-            if (meal.quantity > 1) {
-              return {
-                ...meal,
-                quantity: meal.quantity - 1,
-              };
-            } else {
-              return null;
+        meal: state.meal
+          .map((meal) => {
+            console.log(meal);
+            if (meal.id === action.payload.id) {
+              totalPrice = +(state.totalPrice - meal.price).toFixed(2);
+              if (meal.quantity > 1) {
+                return {
+                  ...meal,
+                  quantity: meal.quantity - 1,
+                };
+              } else {
+                return null;
+              }
             }
-          }
-        }).filter((meal) => meal !== null),
+          })
+          .filter((meal) => meal !== null),
         totalPrice: totalPrice,
         totalQuantity: state.totalQuantity - 1,
       };
       break;
+    case "CLEAN_CART":
+      return {
+        ...state,
+        meal: [],
+        totalPrice: 0,
+        totalQuantity: 0,
+      };
     default:
+    case "CHECKOUT":
+      return {
+        ...state,
+        isCheckout: true,
+      };
+      break;
+    case "NO_CHECKOUT":
+      return {
+        ...state,
+        isCheckout: false,
+      };
+      break;
       return state;
   }
 }
@@ -89,6 +110,7 @@ const MealProvider = ({ children }) => {
     meal: [],
     totalPrice: 0,
     totalQuantity: 0,
+    isCheckout: false,
   });
 
   function addMealToCart(name, price, id) {
@@ -97,7 +119,7 @@ const MealProvider = ({ children }) => {
       payload: { name, price, id },
     });
   }
-  function changeMealQuantity(type, id, quantity) {
+  function changeMealQuantity(type, id) {
     if (type === "add") {
       mealCartDispatch({
         type: "ADD_MEAL",
@@ -110,6 +132,23 @@ const MealProvider = ({ children }) => {
       });
     }
   }
+  function cleanCart() {
+    mealCartDispatch({
+      type: "CLEAN_CART",
+    });
+  }
+
+  function checkIsCheckout(ok) {
+    if (ok) {
+      mealCartDispatch({
+        type: "CHECKOUT",
+      });
+    }else{
+       mealCartDispatch({
+         type: "NO_CHECKOUT",
+       });
+    }
+  }
 
   return (
     <MealContext.Provider
@@ -117,9 +156,11 @@ const MealProvider = ({ children }) => {
         isFetching,
         error,
         meals,
-        addMealToCart,
         mealCartState,
+        addMealToCart,
         changeMealQuantity,
+        cleanCart,
+        checkIsCheckout,
       }}
     >
       {children}

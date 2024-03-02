@@ -4,10 +4,11 @@ import Button from "../../utilities/button/button";
 import Modal from "../../utilities/modal/modal";
 import Cart from "../cart/cart";
 import { MealContext } from "../../store/meal-context";
+import Checkout from "../checkout/checkout";
 
 export default function Header() {
   const { mealCartState } = useContext(MealContext);
-
+  console.log(mealCartState);
   const modalRef = useRef();
 
   return (
@@ -20,7 +21,7 @@ export default function Header() {
         Cart({mealCartState.totalQuantity})
       </Button>
       <Modal ref={modalRef}>
-        <Cart />
+        {!mealCartState.isCheckout ? <Cart /> : <Checkout />}
       </Modal>
     </header>
   );

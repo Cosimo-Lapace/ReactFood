@@ -2,11 +2,9 @@ import React, { useContext } from "react";
 import Button from "../../utilities/button/button";
 import { MealContext } from "../../store/meal-context";
 import CartTotal from "./cartTotal/cartTotal";
-import Meals from "../meals/meals";
 
 export default function Cart() {
   const { mealCartState, changeMealQuantity } = useContext(MealContext);
-  console.log(mealCartState);
 
   return (
     <div className="cart">
