@@ -85,7 +85,7 @@ function mealCartReducer(state, action) {
         isCheckout: true,
       };
       break;
-    case "NO_CHECKOUT":
+    case "NOT_CHECKOUT":
       return {
         ...state,
         isCheckout: false,
@@ -145,7 +145,7 @@ const MealProvider = ({ children }) => {
       });
     }else{
        mealCartDispatch({
-         type: "NO_CHECKOUT",
+         type: "NOT_CHECKOUT",
        });
     }
   }

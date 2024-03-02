@@ -2,13 +2,13 @@ import React, { useContext } from "react";
 import Button from "../../utilities/button/button";
 import { MealContext } from "../../store/meal-context";
 import CartTotal from "./cartTotal/cartTotal";
+import CartContent from "./CartContent";
 
 export default function Cart() {
   const { mealCartState, changeMealQuantity } = useContext(MealContext);
 
   return (
-    <div className="cart">
-      <h2>Cart</h2>
+    <CartContent title="Cart">
       {mealCartState.meal.length > 0 ? (
         <ul>
           {mealCartState.meal.map((meal) => (
@@ -45,6 +45,6 @@ export default function Cart() {
       {mealCartState.meal.length > 0 ? (
         <CartTotal totalPrice={mealCartState.totalPrice} />
       ) : null}
-    </div>
+    </CartContent>
   );
 }

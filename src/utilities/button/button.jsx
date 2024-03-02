@@ -1,4 +1,4 @@
-export default function Button({ children, onClick, $class, ...props }) {
+export default function Button({ type = "button",children, onClick, $class, ...props }) {
   if($class === "none"){
     $class = "";
   }else{
@@ -7,7 +7,7 @@ export default function Button({ children, onClick, $class, ...props }) {
 
   return (
     <>
-      <button className={$class} onClick={onClick} {...props}>
+      <button type={type} className={$class} onClick={onClick} {...props}>
         {children}
       </button>
     </>

@@ -1,4 +1,10 @@
-
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: 70vh;
+}
 .loader {
   width: 64px;
   height: 64px;

@@ -176,9 +176,6 @@ h1 {
   justify-content: center;
   align-items: center;
 }
-.delete-button {
-  background-color: transparent !important;
-}
 
 .cart-item-actions button:hover,
 .cart-item-actions button:active {
@@ -265,8 +262,9 @@ h1 {
 .modal::backdrop {
   background-color: rgba(0, 0, 0, 0.55);
 }
-
-.spinner-container,
+.error {
+  border-color: red !important;
+}
 .error-container {
   display: flex;
   justify-content: center;

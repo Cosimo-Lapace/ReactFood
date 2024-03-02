@@ -1,8 +1,8 @@
-import "./spinner.css";
+import classes  from "./spinner.module.css";
 export default function Spinner() {
   return (
-    <div className="spinner-container">
-      <span className="loader"></span>
+    <div className={classes.spinnerContainer}>
+      <span className={classes.loader}></span>
     </div>
   );
 }

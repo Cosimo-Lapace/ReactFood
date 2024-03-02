@@ -8,7 +8,6 @@ import Checkout from "../checkout/checkout";
 
 export default function Header() {
   const { mealCartState } = useContext(MealContext);
-  console.log(mealCartState);
   const modalRef = useRef();
 
   return (

@@ -6,8 +6,8 @@ import { MealContext } from "../../store/meal-context";
 
 const Modal = forwardRef(function Modal({ children }, ref) {
   const dialog = useRef();
-   const { checkIsCheckout } = useContext(MealContext);
-  console.log(dialog.current);
+  const { checkIsCheckout } = useContext(MealContext);
+
   useImperativeHandle(ref, () => {
     return {
       open: () => {
@@ -20,9 +20,17 @@ const Modal = forwardRef(function Modal({ children }, ref) {
   });
 
   return createPortal(
-    <dialog ref={dialog} className="modal" onClose={() => checkIsCheckout(false)}>
+    <dialog
+      ref={dialog}
+      className="modal"
+      onClose={() => checkIsCheckout(false)}
+    >
       <form method="dialog" className="modal-actions">
-        <Button onClick={()=>checkIsCheckout(false)} $class={"text-modal-button"}>
+        <Button
+          type="submit"
+          onClick={() => checkIsCheckout(false)}
+          $class={"text-modal-button"}
+        >
           X
         </Button>
       </form>
