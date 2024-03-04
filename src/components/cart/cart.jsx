@@ -29,7 +29,7 @@ export default function Cart() {
                 <span>{meal.quantity}</span>
                 <Button
                   onClick={() =>
-                    changeMealQuantity("decr", meal.id, meal.quantity)
+                    changeMealQuantity("decr", meal.id)
                   }
                   $class={"none"}
                 >

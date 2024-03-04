@@ -47,29 +47,26 @@ function mealCartReducer(state, action) {
       }
       break;
     case "DECR_MEAL":
-      console.log(state.totalPrice);
-      let totalPrice = state.totalPrice;
+      const { id } = action.payload;
+      const updatedItems = [...state.meal];
+      const updatedItemIndex = updatedItems.findIndex((meal) => meal.id === id);
+      const updatedItem = {
+        ...updatedItems[updatedItemIndex],
+      };
+      updatedItem.quantity = updatedItem.quantity - 1;
+
+      if (updatedItem.quantity <= 0) {
+        updatedItems.splice(updatedItemIndex, 1);
+      } else {
+        updatedItems[updatedItemIndex] = updatedItem;
+      }
       return {
         ...state,
-        meal: state.meal
-          .map((meal) => {
-            console.log(meal);
-            if (meal.id === action.payload.id) {
-              totalPrice = +(state.totalPrice - meal.price).toFixed(2);
-              if (meal.quantity > 1) {
-                return {
-                  ...meal,
-                  quantity: meal.quantity - 1,
-                };
-              } else {
-                return null;
-              }
-            }
-          })
-          .filter((meal) => meal !== null),
-        totalPrice: totalPrice,
+        meal: updatedItems,
+        totalPrice: +(state.totalPrice - updatedItem.price).toFixed(2), //bit in javascript
         totalQuantity: state.totalQuantity - 1,
       };
+
       break;
     case "CLEAN_CART":
       return {
@@ -94,7 +91,7 @@ function mealCartReducer(state, action) {
       return {
         meal: [...state.meal],
         totalPrice: state.totalPrice,
-        totalQuantity:state.totalQuantity,
+        totalQuantity: state.totalQuantity,
         userObj: action.payload.userObj,
       };
     default:
@@ -163,7 +160,6 @@ const MealProvider = ({ children }) => {
       payload: { userObj },
     });
   }
-  console.log(mealCartState);
 
   return (
     <MealContext.Provider
