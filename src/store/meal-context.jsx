@@ -1,6 +1,6 @@
-import { createContext, useReducer, useRef } from "react";
+import { createContext, useEffect, useReducer, useRef, useState } from "react";
 import { useAjax } from "../hooks/useAjax";
-import { getMeal } from "../http/http";
+import { getMeal, setOrder } from "../http/http";
 
 export const MealContext = createContext();
 
@@ -47,20 +47,24 @@ function mealCartReducer(state, action) {
       }
       break;
     case "DECR_MEAL":
+      //check if item is already in cart by array index
       const updatedIMeals = [...state.meal];
       const updatedMealsIndex = updatedIMeals.findIndex(
         (meal) => meal.id === action.payload.id
       );
+      //get the meal object from array
       const updatedItem = {
         ...updatedIMeals[updatedMealsIndex],
       };
+      //decrease quantity
       updatedItem.quantity = updatedItem.quantity - 1;
-
+      //check if quantity is 0, if yes, remove from cart
       if (updatedItem.quantity <= 0) {
         updatedIMeals.splice(updatedMealsIndex, 1);
       } else {
         updatedIMeals[updatedMealsIndex] = updatedItem;
       }
+      //update state
       return {
         ...state,
         meal: updatedIMeals,
@@ -70,6 +74,7 @@ function mealCartReducer(state, action) {
 
       break;
     case "CLEAN_CART":
+      //remove all items from cart
       return {
         ...state,
         meal: [],
@@ -77,28 +82,19 @@ function mealCartReducer(state, action) {
         totalQuantity: 0,
       };
     case "CHECKOUT":
+      //navigate to checkout
       return {
         ...state,
         isCheckout: true,
       };
       break;
     case "NOT_CHECKOUT":
-      console.log("not check");
+      //navigate back
       return {
         ...state,
         isCheckout: false,
       };
       break;
-    case "SUBMITTED":
-      console.log("ciao");
-      //send ajax request
-      return {
-        ...state,
-        meal: [...state.meal],
-        totalPrice: state.totalPrice,
-        totalQuantity: state.totalQuantity,
-        userObj: action.payload.userObj,
-      };
     default:
       return state;
   }
@@ -121,7 +117,15 @@ const MealProvider = ({ children }) => {
     totalQuantity: 0,
     isCheckout: false,
   });
-    const modalRef = useRef();
+  const modalRef = useRef();
+  const [inputObj, setInputObj] = useState({
+    name: "",
+    email: "",
+    street: "",
+    postalCode: "",
+    city: "",
+    isValid: true,
+  });
 
   function addMealToCart(name, price, id) {
     mealCartDispatch({
@@ -159,11 +163,10 @@ const MealProvider = ({ children }) => {
       });
     }
   }
-  function onSubmitted(userObj) {
-    console.log(userObj);
+  async function onSubmitted(ajaxObj) {
+    await setOrder("orders", ajaxObj);
     mealCartDispatch({
-      type: "SUBMITTED",
-      payload: { userObj },
+      type: "CLEAN_CART",
     });
   }
 
@@ -175,6 +178,8 @@ const MealProvider = ({ children }) => {
         meals,
         mealCartState,
         modalRef,
+        inputObj,
+        setInputObj,
         addMealToCart,
         changeMealQuantity,
         cleanCart,

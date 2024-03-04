@@ -4,11 +4,11 @@ import MealProvider from "./store/meal-context";
 
 function App() {
   return (
-    <MealProvider>
-      <Header />
-      <main>
-        <Meals />
-      </main>
+    <MealProvider> 
+        <Header />
+        <main>
+          <Meals />
+        </main>
     </MealProvider>
   );
 }

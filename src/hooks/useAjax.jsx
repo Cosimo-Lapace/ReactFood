@@ -14,7 +14,7 @@ export function useAjax(
     async function fetchData() {
       setIsFetching(true);
       try {
-        const data = await typeFn(uri);
+        const data = await typeFn(uri,initialValue);
         setFetchData(data);
         setIsFetching(false);
       } catch (error) {

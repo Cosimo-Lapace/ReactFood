@@ -1,18 +1,13 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import Input from "../../../utilities/input/input";
 import Button from "../../../utilities/button/button";
 import ErrorMessage from "../../../utilities/error/errorMessage/errorMessage";
 import { MealContext } from "../../../store/meal-context";
+
 export default function CheckoutForm({ setIsComplete }) {
-  const { onSubmitted } = useContext(MealContext);
-  const [inputObj, setInputObj] = useState({
-    name: "",
-    email: "",
-    street: "",
-    postalCode: "",
-    city: "",
-    isValid: true,
-  });
+  const { onSubmitted, mealCartState, inputObj, setInputObj } =
+    useContext(MealContext);
+ 
   function submit(e) {
     e.preventDefault();
     if (
@@ -38,14 +33,20 @@ export default function CheckoutForm({ setIsComplete }) {
       });
       setIsComplete(true);
     }
-    const newObj = {
-      name: inputObj.name,
-      email: inputObj.email,
-      street: inputObj.street,
-      postalCode: inputObj.postalCode,
-      city: inputObj.city,
+    const AjaxObj = {
+      items: mealCartState.meal,
+      totalQuantity: mealCartState.totalQuantity,
+      totalPrice: mealCartState.totalPrice,
+      customer: {
+        name: inputObj.name,
+        email: inputObj.email,
+        street: inputObj.street,
+        ["postal-code"]: inputObj.postalCode,
+        city: inputObj.city,
+      },
     };
-    onSubmitted(newObj);
+
+    onSubmitted(AjaxObj);
   }
 
   return (
