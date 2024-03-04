@@ -4,6 +4,13 @@ import { OrderContext } from "../../../store/order-context";
 export default function Orders() {
   const { orders } = useContext(OrderContext);
 
+  if (orders.length === 0) {
+    return (
+      <div>
+        <p>No orders</p>
+      </div>
+    );
+  }
   return (
     <div>
       <div>
