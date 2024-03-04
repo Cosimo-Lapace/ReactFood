@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import { useContext } from "react";
 import logo from "../../assets/logo.jpg";
 import Button from "../../utilities/button/button";
 import Modal from "../../utilities/modal/modal";
@@ -7,9 +7,7 @@ import { MealContext } from "../../store/meal-context";
 import Checkout from "../checkout/checkout";
 
 export default function Header() {
-  const { mealCartState } = useContext(MealContext);
-  const modalRef = useRef();
-
+  const { mealCartState, modalRef } = useContext(MealContext);
   return (
     <header id="main-header">
       <div id="title">

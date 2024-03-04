@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useRef } from "react";
 import { useAjax } from "../hooks/useAjax";
 import { getMeal } from "../http/http";
 
@@ -47,22 +47,23 @@ function mealCartReducer(state, action) {
       }
       break;
     case "DECR_MEAL":
-      const { id } = action.payload;
-      const updatedItems = [...state.meal];
-      const updatedItemIndex = updatedItems.findIndex((meal) => meal.id === id);
+      const updatedIMeals = [...state.meal];
+      const updatedMealsIndex = updatedIMeals.findIndex(
+        (meal) => meal.id === action.payload.id
+      );
       const updatedItem = {
-        ...updatedItems[updatedItemIndex],
+        ...updatedIMeals[updatedMealsIndex],
       };
       updatedItem.quantity = updatedItem.quantity - 1;
 
       if (updatedItem.quantity <= 0) {
-        updatedItems.splice(updatedItemIndex, 1);
+        updatedIMeals.splice(updatedMealsIndex, 1);
       } else {
-        updatedItems[updatedItemIndex] = updatedItem;
+        updatedIMeals[updatedMealsIndex] = updatedItem;
       }
       return {
         ...state,
-        meal: updatedItems,
+        meal: updatedIMeals,
         totalPrice: +(state.totalPrice - updatedItem.price).toFixed(2), //bit in javascript
         totalQuantity: state.totalQuantity - 1,
       };
@@ -82,14 +83,17 @@ function mealCartReducer(state, action) {
       };
       break;
     case "NOT_CHECKOUT":
+      console.log("not check");
       return {
         ...state,
         isCheckout: false,
       };
       break;
     case "SUBMITTED":
+      console.log("ciao");
       //send ajax request
       return {
+        ...state,
         meal: [...state.meal],
         totalPrice: state.totalPrice,
         totalQuantity: state.totalQuantity,
@@ -117,6 +121,7 @@ const MealProvider = ({ children }) => {
     totalQuantity: 0,
     isCheckout: false,
   });
+    const modalRef = useRef();
 
   function addMealToCart(name, price, id) {
     mealCartDispatch({
@@ -169,6 +174,7 @@ const MealProvider = ({ children }) => {
         error,
         meals,
         mealCartState,
+        modalRef,
         addMealToCart,
         changeMealQuantity,
         cleanCart,

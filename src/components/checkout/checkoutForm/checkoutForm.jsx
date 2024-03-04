@@ -3,7 +3,7 @@ import Input from "../../../utilities/input/input";
 import Button from "../../../utilities/button/button";
 import ErrorMessage from "../../../utilities/error/errorMessage/errorMessage";
 import { MealContext } from "../../../store/meal-context";
-export default function CheckoutForm() {
+export default function CheckoutForm({ setIsComplete }) {
   const { onSubmitted } = useContext(MealContext);
   const [inputObj, setInputObj] = useState({
     name: "",
@@ -36,6 +36,7 @@ export default function CheckoutForm() {
           isValid: true,
         };
       });
+      setIsComplete(true);
     }
     const newObj = {
       name: inputObj.name,
