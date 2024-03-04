@@ -1,6 +1,6 @@
 export const url = "http://localhost:3000/";
 
-export async function getMeal(uri) {
+export async function get(uri) {
   const res = await fetch(url + uri);
   const resData = await res.json();
   if (!res.ok) {
@@ -8,6 +8,8 @@ export async function getMeal(uri) {
   }
   return resData;
 }
+
+
 
 export async function setOrder(uri, order) {
   console.log(order);

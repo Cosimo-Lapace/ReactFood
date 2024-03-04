@@ -3,7 +3,7 @@ import { MealContext } from "../../../store/meal-context";
 import Button from "../../../utilities/button/button";
 
 export default function CartTotal({ totalPrice }) {
-  const { cleanCart, checkIsCheckout } = useContext(MealContext);
+  const { cleanCart, modalNavigator } = useContext(MealContext);
   return (
     <>
       <div className="cart-total">${totalPrice}</div>
@@ -11,7 +11,7 @@ export default function CartTotal({ totalPrice }) {
         <Button onClick={cleanCart} $class={"text-modal-button"}>
           Clean
         </Button>
-        <Button onClick={() => checkIsCheckout(true)}>Checkout</Button>
+        <Button onClick={() => modalNavigator("checkout")}>Checkout</Button>
       </div>
     </>
   );

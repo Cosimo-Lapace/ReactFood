@@ -6,7 +6,7 @@ import { MealContext } from "../../store/meal-context";
 
 const Modal = forwardRef(function Modal({ children }, ref) {
   const dialog = useRef();
-  const { checkIsCheckout } = useContext(MealContext);
+  const { modalNavigator } = useContext(MealContext);
 
   useImperativeHandle(ref, () => {
     return {
@@ -23,12 +23,12 @@ const Modal = forwardRef(function Modal({ children }, ref) {
     <dialog
       ref={dialog}
       className="modal"
-      onClose={() => checkIsCheckout(false)}
+      onClose={() => modalNavigator("cart")}
     >
       <form method="dialog" className="modal-actions">
         <Button
           type="submit"
-          onClick={() => checkIsCheckout(false)}
+          onClick={() => modalNavigator("cart")}
           $class={"text-modal-button"}
         >
           X

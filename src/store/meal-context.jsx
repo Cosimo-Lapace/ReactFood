@@ -1,6 +1,6 @@
-import { createContext, useEffect, useReducer, useRef, useState } from "react";
+import { createContext, useReducer, useRef, useState } from "react";
 import { useAjax } from "../hooks/useAjax";
-import { getMeal, setOrder } from "../http/http";
+import { get, setOrder } from "../http/http";
 
 export const MealContext = createContext();
 
@@ -85,14 +85,21 @@ function mealCartReducer(state, action) {
       //navigate to checkout
       return {
         ...state,
-        isCheckout: true,
+        CheckoutNagitator: "checkout",
       };
       break;
-    case "NOT_CHECKOUT":
+    case "CART":
       //navigate back
       return {
         ...state,
-        isCheckout: false,
+        CheckoutNagitator: "cart",
+      };
+      break;
+    case "ORDERS":
+      //navigate back
+      return {
+        ...state,
+        CheckoutNagitator: "orders",
       };
       break;
     default:
@@ -105,17 +112,12 @@ const MealProvider = ({ children }) => {
     isFetching,
     error,
     Fetchdata: meals,
-  } = useAjax(
-    getMeal,
-    "meals",
-    [],
-    "Error Fetching Meals,please try again later"
-  );
+  } = useAjax(get, "meals", [], "Error Fetching Meals,please try again later");
   const [mealCartState, mealCartDispatch] = useReducer(mealCartReducer, {
     meal: [],
     totalPrice: 0,
     totalQuantity: 0,
-    isCheckout: false,
+    CheckoutNagitator: "cart",
   });
   const modalRef = useRef();
   const [inputObj, setInputObj] = useState({
@@ -152,14 +154,19 @@ const MealProvider = ({ children }) => {
     });
   }
 
-  function checkIsCheckout(ok) {
-    if (ok) {
+  function modalNavigator(type) {
+    if (type === "checkout") {
+      console.log(type);
       mealCartDispatch({
         type: "CHECKOUT",
       });
-    } else {
+    } else if (type === "cart") {
       mealCartDispatch({
-        type: "NOT_CHECKOUT",
+        type: "CART",
+      });
+    } else if (type === "orders") {
+      mealCartDispatch({
+        type: "ORDERS",
       });
     }
   }
@@ -183,7 +190,7 @@ const MealProvider = ({ children }) => {
         addMealToCart,
         changeMealQuantity,
         cleanCart,
-        checkIsCheckout,
+        modalNavigator,
         onSubmitted,
       }}
     >
