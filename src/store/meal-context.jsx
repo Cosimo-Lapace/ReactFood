@@ -88,6 +88,7 @@ function mealCartReducer(state, action) {
       };
       break;
     case "SUBMITTED":
+      //send ajax request
       return {
         meal: [...state.meal],
         totalPrice: state.totalPrice,
