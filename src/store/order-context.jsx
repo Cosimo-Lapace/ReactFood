@@ -7,14 +7,19 @@ export const OrderContext = createContext();
 const OrderProvider = ({ children }) => {
   const {
     Fetchdata: orders,
+    isFetching,
+    error,
   } = useAjax(get, "orders", [], "Error Fetching Meals,please try again later");
 
   return (
     <OrderContext.Provider
       value={{
         orders,
+        isFetching,
+        error,
       }}
-    >{children}
+    >
+      {children}
     </OrderContext.Provider>
   );
 };
