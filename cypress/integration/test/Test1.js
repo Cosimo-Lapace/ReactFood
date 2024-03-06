@@ -24,9 +24,9 @@ describe("HomePage", () => {
       }
     });
     const cart = new Cart();
-    cart.getModal().should("be.visible");
-    cart.getModalButton().click();
-    cart.getModal().should("not.be.visible");
+    cy.checkModal(cart);
+    homePage.getOrderButton().click();
+    cy.checkModal(cart);
+    cy.log("Home Test Passed")
   });
 });
-//cy.get('ul li')
