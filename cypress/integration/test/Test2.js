@@ -36,5 +36,26 @@ describe("Cart Test", () => {
     });
     homePage.getCartButton().click();
     cart.getModal().find("li").should("have.length", 2);
+    let amount = 0;
+    cart.getCartList().each(($el, $i, $list) => {
+      if ($i === 0) {
+        cy.wrap($el.find("button")).first().click();
+        cart.getMealQuantity($i).then(($elment) => {
+          expect(+$elment.text()).to.equal(2);
+        });
+      }
+      cart.getMealQuantityInList($i).then(($elment) => {
+        let x = +$el.text().split("x")[1].split("+")[0] * +$elment.text();
+        amount = amount + x;
+      });
+    });
+    cart.getCartTotal().then(($el) => {
+      const totalPrice = $el.text().split("$")[1];
+      expect(+totalPrice).to.equal(+amount);
+    });
+    cart.getCheckout().click();
+    cart.getTitle().then(($el) => {
+      expect($el.text()).to.not.equal("Cart");
+    });
   });
 });
